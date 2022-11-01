@@ -6,7 +6,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
+
+import static utils.Utils.generateCurrentDate;
+import static utils.Utils.generateRandomCharacter;
 
 
 public class OrderPage {
@@ -21,7 +25,7 @@ public class OrderPage {
     private final By titleOfSectionAboutRent = By.className("Order_Header__BZXOb");
 
     //Имя клиента
-    private final By inputClientName =By.cssSelector("[placeholder='* Имя']");
+    private final By inputClientName = By.cssSelector("[placeholder='* Имя']");
     //Фамилия клиента
     private final By inputSurname = By.cssSelector("[placeholder='* Фамилия']");
 
@@ -68,17 +72,17 @@ public class OrderPage {
 
     private final WebDriver driver;
 
-    public OrderPage (WebDriver driver) {
+    public OrderPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public OrderPage waitForLoadTitleOfSectionAboutClient(){
+    public OrderPage waitForLoadTitleOfSectionAboutClient() {
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleOfSectionAboutClient));
         return this;
     }
 
-    public OrderPage waitForLoadTitleOfSectionAboutRent(){
+    public OrderPage waitForLoadTitleOfSectionAboutRent() {
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleOfSectionAboutRent));
         return this;
@@ -97,9 +101,10 @@ public class OrderPage {
     }
 
     public OrderPage moveToInputSurname() {
-       moveToElement(inputSurname);
+        moveToElement(inputSurname);
         return this;
     }
+
     public OrderPage inputSurname(String text) {
         driver.findElement(inputSurname).sendKeys(text);
         return this;
@@ -110,7 +115,7 @@ public class OrderPage {
         return this;
     }
 
-    public OrderPage inputMetroStation () {
+    public OrderPage inputMetroStation() {
         new Actions(driver)
                 .moveToElement(driver.findElement(inputMetroStation))
                 .click()
@@ -123,12 +128,12 @@ public class OrderPage {
         return this;
     }
 
-    public OrderPage inputClientPhone () {
+    public OrderPage inputClientPhone() {
         driver.findElement(inputClientPhone).sendKeys("89084563695");
         return this;
     }
 
-    public OrderPage clickNextButton () {
+    public OrderPage clickNextButton() {
         driver.findElement(nextButton).click();
         return this;
     }
@@ -139,7 +144,7 @@ public class OrderPage {
     }
 
     public OrderPage clickRentPeriod() {
-       driver.findElement(rentalPeriod).click();
+        driver.findElement(rentalPeriod).click();
         return this;
     }
 
@@ -176,5 +181,25 @@ public class OrderPage {
     public String getMessageAboutSuccessfulCreationOfOrder() {
         return driver.findElement(messageAboutSuccessfulCreationOfOrder).getText();
     }
+
+    public OrderPage fillOrderCreationForm() {
+        inputClientName(generateRandomCharacter(14))
+                .inputSurname(generateRandomCharacter(14))
+                .inputClientAddress(generateRandomCharacter(14))
+                .inputMetroStation()
+                .inputClientPhone()
+                .clickNextButton()
+                .waitForLoadTitleOfSectionAboutRent()
+                .inputRentDate(generateCurrentDate())
+                .clickRentPeriod()
+                .waitForLoadRentPeriodTypes()
+                .clickRentPeriodTypes()
+                .selectBlackColorOfScooter()
+                .inputCommentForCourier(generateRandomCharacter(50))
+                .clickOrderCreateDownButton()
+                .clickButtonYes();
+        return this;
+    }
+
 
 }

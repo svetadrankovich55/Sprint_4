@@ -1,6 +1,6 @@
 package checksectionimportantquestions;
 
-import main.BrowserRule;
+import utils.BrowserRule;
 import org.junit.Rule;
 import org.junit.Test;
 import pom.MainPage;

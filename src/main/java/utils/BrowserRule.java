@@ -1,4 +1,4 @@
-package main;
+package utils;
 
 import org.junit.rules.ExternalResource;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +17,7 @@ public class BrowserRule extends ExternalResource {
     }
 
     @Override
-    protected void before() throws Throwable {
+    protected void before() {
 
         String browser = System.getenv("browser");
 
